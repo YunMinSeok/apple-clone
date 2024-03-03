@@ -1,4 +1,6 @@
 (() => {
+  let yOffset = 0; // window.pageYOffset 대신 쓸 변수
+
   const sceneInfo = [
     {
       // 0
@@ -47,9 +49,16 @@
         i
       ].objs.container.style.height = `${sceneInfo[i].scrollHeight}px`;
     }
-
-    window.addEventListener("resize", setLayout);
-    console.log(sceneInfo);
   }
+
+  function scrollLoop() {
+    console.log(yOffset);
+  }
+
+  window.addEventListener("resize", setLayout);
+  window.addEventListener("scroll", () => {
+    yOffset = window.pageYOffset;
+    scrollLoop();
+  });
   setLayout();
 })();
