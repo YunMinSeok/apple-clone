@@ -1,5 +1,7 @@
 (() => {
   let yOffset = 0; // window.pageYOffset 대신 쓸 변수
+  let prevScrollHeight = 0;
+  let currentScene = 0;
 
   const sceneInfo = [
     {
@@ -52,7 +54,22 @@
   }
 
   function scrollLoop() {
-    console.log(yOffset);
+    prevScrollHeight = 0;
+    for (let i = 0; i < currentScene; i++) {
+      prevScrollHeight += sceneInfo[i].scrollHeight;
+    }
+
+    if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+      currentScene++;
+    }
+
+    if (yOffset < prevScrollHeight) {
+      if (currentScene === 0) {
+        return;
+      }
+      currentScene--;
+    }
+    console.log(currentScene);
   }
 
   window.addEventListener("resize", setLayout);
