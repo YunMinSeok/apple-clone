@@ -1,7 +1,8 @@
 (() => {
-  let yOffset = 0; // window.pageYOffset 대신 쓸 변수
+  let yOffset = 0;
   let prevScrollHeight = 0;
   let currentScene = 0;
+  let enterNewScene = false;
 
   const sceneInfo = [
     {
@@ -17,7 +18,8 @@
         messageD: document.querySelector(".main-message.d"),
       },
       values: {
-        messageA_opacity: [0, 1],
+        messageA_opacity: [0, 1, { start: 0.1, end: 0.2 }],
+        messageB_opacity: [0, 1, { start: 0.3, end: 0.4 }],
       },
     },
     {
@@ -76,7 +78,27 @@
     let rv;
     let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
 
-    rv = scrollRatio * (values[1] - values[0]) + values[0];
+    if (values.length === 3) {
+      const partScrollStart = values[2].start * scrollHeight;
+      const partScrollEnd = values[2].end * scrollHeight;
+      const partScrollHeight = partScrollEnd - partScrollStart;
+
+      if (
+        currentYOffset >= partScrollStart &&
+        currentYOffset <= partScrollEnd
+      ) {
+        rv =
+          ((currentYOffset - partScrollStart) / partScrollHeight) *
+            (values[1] - values[0]) +
+          values[0];
+      } else if (currentYOffset < partScrollStart) {
+        rv = values[0];
+      } else if (currentYOffset > partScrollEnd) {
+        rv = values[1];
+      }
+    } else {
+      rv = scrollRatio * (values[1] - values[0]) + values[0];
+    }
 
     return rv;
   }
@@ -105,21 +127,26 @@
   }
 
   function scrollLoop() {
+    enterNewScene = false;
     prevScrollHeight = 0;
     for (let i = 0; i < currentScene; i++) {
       prevScrollHeight += sceneInfo[i].scrollHeight;
     }
 
     if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+      enterNewScene = true;
       currentScene++;
       document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
 
     if (yOffset < prevScrollHeight) {
+      enterNewScene = true;
       if (currentScene === 0) return;
       currentScene--;
       document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
+    if (enterNewScene) return;
+
     playAnimation();
   }
 
