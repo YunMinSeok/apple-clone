@@ -107,6 +107,7 @@ a {
 .desc-message {
   width: 50%;
   font-weight: bold;
+  opacity: 0;
 }
 .pin {
   width: 1px;
@@ -191,7 +192,7 @@ a {
   }
   #scroll-section-2 .b {
     top: 20%;
-    left: 53;
+    left: 53%;
   }
   #scroll-section-2 .c {
     left: 55%;
