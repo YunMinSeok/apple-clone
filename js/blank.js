@@ -22,7 +22,7 @@
       },
       values: {
         videoImageCount: 300,
-        imageSequence: [0.299],
+        imageSequence: [0, 299],
         messageA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
         messageB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
         messageC_opacity_in: [0, 1, { start: 0.5, end: 0.6 }],
@@ -172,9 +172,10 @@
 
     switch (currentScene) {
       case 0:
-        // console.log('0 play');
-        // let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
-        // objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+        let sequence = Math.round(
+          calcValues(values.imageSequence, currentYOffset)
+        );
+        objs.context.drawImage(objs.videoImages[sequence], 0, 0);
 
         if (scrollRatio <= 0.22) {
           // in
@@ -389,4 +390,5 @@
   });
   window.addEventListener("load", setLayout);
   window.addEventListener("resize", setLayout);
+  setCanvasImages();
 })();

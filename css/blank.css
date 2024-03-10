@@ -156,7 +156,6 @@ a {
 }
 .sticky-elem-canvas {
   top: 0;
-  background: #ccc;
 }
 
 @media (min-width: 1024px) {
