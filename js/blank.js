@@ -422,6 +422,7 @@
         }
 
         objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
+        objs.context.fillStyle = "white";
         objs.context.drawImage(objs.images[0], 0, 0);
 
         const recalculatedInnerWidth = window.innerWidth / canvasScaleRatio;
@@ -438,13 +439,13 @@
           values.rect1X[0],
           0,
           parseInt(whiteRectWidth),
-          recalculatedInnerHeight
+          objs.canvas.height
         );
         objs.context.fillRect(
           values.rect2X[0],
           0,
           parseInt(whiteRectWidth),
-          recalculatedInnerHeight
+          objs.canvas.height
         );
         break;
     }
