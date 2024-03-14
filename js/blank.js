@@ -434,6 +434,18 @@
           values.rect1X[0] + recalculatedInnerWidth - whiteRectWidth;
         values.rect2X[1] = values.rect2X[0] + whiteRectWidth;
 
+        objs.context.fillRect(
+          values.rect1X[0],
+          0,
+          parseInt(whiteRectWidth),
+          recalculatedInnerHeight
+        );
+        objs.context.fillRect(
+          values.rect2X[0],
+          0,
+          parseInt(whiteRectWidth),
+          recalculatedInnerHeight
+        );
         break;
     }
   }
