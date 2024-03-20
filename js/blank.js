@@ -146,7 +146,8 @@
       if (sceneInfo[i].type === "sticky") {
         sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
       } else if (sceneInfo[i].type === "normal") {
-        sceneInfo[i].scrollHeight = sceneInfo[i].objs.container.offsetHeight;
+        sceneInfo[i].scrollHeight =
+          sceneInfo[i].objs.container.offsetHeight * 0.5;
       }
       sceneInfo[
         i
@@ -172,8 +173,8 @@
 
   function calcValues(values, currentYOffset) {
     let rv;
-    let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
     const scrollHeight = sceneInfo[currentScene].scrollHeight;
+    const scrollRatio = currentYOffset / scrollHeight;
 
     if (values.length === 3) {
       const partScrollStart = values[2].start * scrollHeight;
@@ -426,11 +427,17 @@
         objs.context.fillStyle = "white";
         objs.context.drawImage(objs.images[0], 0, 0);
 
-        const recalculatedInnerWidth = window.innerWidth / canvasScaleRatio;
+        const recalculatedInnerWidth =
+          document.body.offsetWidth / canvasScaleRatio;
         const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
-
+        console.log(!values.rectStartY);
         if (!values.rectStartY) {
-          values.rectStartY = objs.canvas.getBoundingClientRect();
+          //   values.rectStartY = objs.canvas.getBoundingClientRect();
+          values.rectStartY =
+            objs.canvas.offsetTop +
+            (objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2;
+          values.rect1X[2].start = window.innerHeight / 2 / scrollHeight;
+          values.rect2X[2].start = window.innerHeight / 2 / scrollHeight;
           values.rect1X[2].end = values.rectStartY / scrollHeight;
           values.rect2X[2].end = values.rectStartY / scrollHeight;
         }
@@ -461,6 +468,7 @@
   function scrollLoop() {
     enterNewScene = false;
     prevScrollHeight = 0;
+
     for (let i = 0; i < currentScene; i++) {
       prevScrollHeight += sceneInfo[i].scrollHeight;
     }
