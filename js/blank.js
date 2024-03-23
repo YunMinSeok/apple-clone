@@ -49,6 +49,7 @@
       scrollHeight: 0,
       objs: {
         container: document.querySelector("#scroll-section-1"),
+        content: document.querySelector("#scroll-section-1 .description"),
       },
     },
     {
@@ -147,7 +148,7 @@
         sceneInfo[i].scrollHeight = sceneInfo[i].heightNum * window.innerHeight;
       } else if (sceneInfo[i].type === "normal") {
         sceneInfo[i].scrollHeight =
-          sceneInfo[i].objs.container.offsetHeight * 0.5;
+          sceneInfo[i].objs.content.offsetHeight + window.innerHeight * 0.5;
       }
       sceneInfo[
         i
@@ -173,10 +174,12 @@
 
   function calcValues(values, currentYOffset) {
     let rv;
+    // 현재 씬(스크롤섹션)에서 스크롤된 범위를 비율로 구하기
     const scrollHeight = sceneInfo[currentScene].scrollHeight;
     const scrollRatio = currentYOffset / scrollHeight;
 
     if (values.length === 3) {
+      // start ~ end 사이에 애니메이션 실행
       const partScrollStart = values[2].start * scrollHeight;
       const partScrollEnd = values[2].end * scrollHeight;
       const partScrollHeight = partScrollEnd - partScrollStart;
@@ -210,10 +213,10 @@
 
     switch (currentScene) {
       case 0:
-        let sequence = Math.round(
-          calcValues(values.imageSequence, currentYOffset)
-        );
-        objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+        // let sequence = Math.round(
+        //   calcValues(values.imageSequence, currentYOffset)
+        // );
+        // objs.context.drawImage(objs.videoImages[sequence], 0, 0);
         objs.canvas.style.opacity = calcValues(
           values.canvas_opacity,
           currentYOffset
@@ -461,8 +464,10 @@
         let canvasScaleRatio;
 
         if (widthRatio <= heightRatio) {
+          // 캔버스보다 브라우저 창이 홀쭉한 경우
           canvasScaleRatio = heightRatio;
         } else {
+          // 캔버스보다 브라우저 창이 납작한 경우
           canvasScaleRatio = widthRatio;
         }
 
@@ -470,12 +475,12 @@
         objs.context.fillStyle = "white";
         objs.context.drawImage(objs.images[0], 0, 0);
 
+        // 캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
         const recalculatedInnerWidth =
           document.body.offsetWidth / canvasScaleRatio;
         const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
-
         if (!values.rectStartY) {
-          //   values.rectStartY = objs.canvas.getBoundingClientRect();
+          // values.rectStartY = objs.canvas.getBoundingClientRect().top;
           values.rectStartY =
             objs.canvas.offsetTop +
             (objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2;
@@ -483,6 +488,11 @@
           values.rect2X[2].start = window.innerHeight / 2 / scrollHeight;
           values.rect1X[2].end = values.rectStartY / scrollHeight;
           values.rect2X[2].end = values.rectStartY / scrollHeight;
+          console.log(
+            objs.canvas.offsetTop,
+            objs.canvas.height,
+            canvasScaleRatio
+          );
         }
 
         const whiteRectWidth = recalculatedInnerWidth * 0.15;
@@ -492,6 +502,7 @@
           values.rect1X[0] + recalculatedInnerWidth - whiteRectWidth;
         values.rect2X[1] = values.rect2X[0] + whiteRectWidth;
 
+        // 좌우 흰색 박스 그리기
         objs.context.fillRect(
           parseInt(calcValues(values.rect1X, currentYOffset)),
           0,

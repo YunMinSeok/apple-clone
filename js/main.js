@@ -500,7 +500,6 @@
         const recalculatedInnerWidth =
           document.body.offsetWidth / canvasScaleRatio;
         const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
-
         if (!values.rectStartY) {
           // values.rectStartY = objs.canvas.getBoundingClientRect().top;
           values.rectStartY =
@@ -510,6 +509,11 @@
           values.rect2X[2].start = window.innerHeight / 2 / scrollHeight;
           values.rect1X[2].end = values.rectStartY / scrollHeight;
           values.rect2X[2].end = values.rectStartY / scrollHeight;
+          console.log(
+            objs.canvas.offsetTop,
+            objs.canvas.height,
+            canvasScaleRatio
+          );
         }
 
         const whiteRectWidth = recalculatedInnerWidth * 0.15;
