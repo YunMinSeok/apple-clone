@@ -489,11 +489,6 @@
           values.rect2X[2].start = window.innerHeight / 2 / scrollHeight;
           values.rect1X[2].end = values.rectStartY / scrollHeight;
           values.rect2X[2].end = values.rectStartY / scrollHeight;
-          console.log(
-            objs.canvas.offsetTop,
-            objs.canvas.height,
-            canvasScaleRatio
-          );
         }
 
         const whiteRectWidth = recalculatedInnerWidth * 0.15;
@@ -522,7 +517,10 @@
           objs.canvas.classList.remove("sticky");
         } else {
           step = 2;
-          objs.canvas.classList.add("sticky-elem");
+          objs.canvas.classList.add("sticky");
+          objs.canvas.style.top = `${
+            -(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2
+          }px`;
         }
 
         break;
