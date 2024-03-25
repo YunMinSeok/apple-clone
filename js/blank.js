@@ -459,6 +459,7 @@
 
         break;
       case 3:
+        let step = 0;
         const widthRatio = window.innerWidth / objs.canvas.width;
         const heightRatio = window.innerHeight / objs.canvas.height;
         let canvasScaleRatio;
@@ -515,6 +516,15 @@
           parseInt(whiteRectWidth),
           objs.canvas.height
         );
+
+        if (scrollRatio < values.rect1X[2].end) {
+          step = 1;
+          objs.canvas.classList.remove("sticky");
+        } else {
+          step = 2;
+          objs.canvas.classList.add("sticky-elem");
+        }
+
         break;
     }
   }
