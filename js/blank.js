@@ -114,6 +114,7 @@
       values: {
         rect1X: [0, 0, { start: 0, end: 0 }],
         rect2X: [0, 0, { start: 0, end: 0 }],
+        imageBlendY: [0, 0, { start: 0, end: 0 }],
         rectStartY: 0,
       },
     },
@@ -141,7 +142,7 @@
       sceneInfo[3].objs.images.push(imgElem3);
     }
   }
-
+  setCanvasImages();
   function setLayout() {
     for (let i = 0; i < sceneInfo.length; i++) {
       if (sceneInfo[i].type === "sticky") {
@@ -517,6 +518,8 @@
           objs.canvas.classList.remove("sticky");
         } else {
           step = 2;
+          objs.context.drawImage(objs.images[1], 0, 200);
+
           objs.canvas.classList.add("sticky");
           objs.canvas.style.top = `${
             -(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2
@@ -561,5 +564,4 @@
     sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
   });
   window.addEventListener("resize", setLayout);
-  setCanvasImages();
 })();
