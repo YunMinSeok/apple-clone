@@ -553,7 +553,10 @@
               values.canvas_scale,
               currentYOffset
             )})`;
+
+            objs.canvas.style.marginTop = 0;
           }
+
           if (
             scrollRatio > values.canvas_scale[2].end &&
             values.canvas_scale[2].end > 0
