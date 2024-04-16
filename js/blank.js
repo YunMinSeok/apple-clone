@@ -130,7 +130,6 @@
       imgElem.src = `./video/001/IMG_${6726 + i}.JPG`;
       sceneInfo[0].objs.videoImages.push(imgElem);
     }
-
     let imgElem2;
     for (let i = 0; i < sceneInfo[2].values.videoImageCount; i++) {
       imgElem2 = new Image();
@@ -145,7 +144,6 @@
       sceneInfo[3].objs.images.push(imgElem3);
     }
   }
-  setCanvasImages();
 
   function checkMenu() {
     if (yOffset > 44) {
@@ -226,10 +224,10 @@
 
     switch (currentScene) {
       case 0:
-        // let sequence = Math.round(
-        //   calcValues(values.imageSequence, currentYOffset)
-        // );
-        // objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+        let sequence = Math.round(
+          calcValues(values.imageSequence, currentYOffset)
+        );
+        objs.context.drawImage(objs.videoImages[sequence], 0, 0);
         objs.canvas.style.opacity = calcValues(
           values.canvas_opacity,
           currentYOffset
@@ -631,4 +629,6 @@
     sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
   });
   window.addEventListener("resize", setLayout);
+
+  setCanvasImages();
 })();
