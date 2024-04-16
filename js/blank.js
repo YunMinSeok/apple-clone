@@ -328,10 +328,10 @@
         break;
 
       case 2:
-        let sequence2 = Math.round(
-          calcValues(values.imageSequence, currentYOffset)
-        );
-        objs.context.drawImage(objs.videoImages[sequence2], 0, 0);
+        // let sequence2 = Math.round(
+        //   calcValues(values.imageSequence, currentYOffset)
+        // );
+        // objs.context.drawImage(objs.videoImages[sequence2], 0, 0);
 
         if (scrollRatio <= 0.5) {
           // in
@@ -606,13 +606,16 @@
       prevScrollHeight += sceneInfo[i].scrollHeight;
     }
 
-    if (yOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+    if (
+      delayedYOffset >
+      prevScrollHeight + sceneInfo[currentScene].scrollHeight
+    ) {
       enterNewScene = true;
       currentScene++;
       document.body.setAttribute("id", `show-scene-${currentScene}`);
     }
 
-    if (yOffset < prevScrollHeight) {
+    if (delayedYOffset < prevScrollHeight) {
       enterNewScene = true;
       if (currentScene === 0) return;
       currentScene--;
@@ -624,18 +627,20 @@
   }
 
   function loop() {
-    delayedYOffset = delayedYOffset + (pageYOffset - delayedYOffset) * acc;
+    delayedYOffset = delayedYOffset + (yOffset - delayedYOffset) * acc;
 
-    if (currentScene === 0) {
-      const currentYOffset = delayedYOffset - prevScrollHeight;
-      const objs = sceneInfo[currentScene].objs;
-      const values = sceneInfo[currentScene].values;
-      let sequence = Math.round(
-        calcValues(values.imageSequence, currentYOffset)
-      );
+    if (!enterNewScene) {
+      if (currentScene === 0 || currentScene === 2) {
+        const currentYOffset = delayedYOffset - prevScrollHeight;
+        const objs = sceneInfo[currentScene].objs;
+        const values = sceneInfo[currentScene].values;
+        let sequence = Math.round(
+          calcValues(values.imageSequence, currentYOffset)
+        );
 
-      if (objs.videoImages[sequence]) {
-        objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+        if (objs.videoImages[sequence]) {
+          objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+        }
       }
     }
 
