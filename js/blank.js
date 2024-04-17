@@ -662,11 +662,25 @@
       rafState = true;
     }
   });
+
   window.addEventListener("load", () => {
     setLayout();
     sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
   });
-  window.addEventListener("resize", setLayout);
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900) {
+      setLayout();
+    }
+    sceneInfo[3].values.rectStartY = 0;
+  });
+
+  window.addEventListener("orientationchange", () => {
+    scrollTo(0, 0);
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  });
 
   setCanvasImages();
 })();
