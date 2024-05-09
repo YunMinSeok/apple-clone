@@ -684,8 +684,7 @@
 
     window.addEventListener("resize", () => {
       if (window.innerWidth > 900) {
-        setLayout();
-        sceneInfo[3].values.rectStartY = 0;
+        window.location.reload();
       }
     });
 
